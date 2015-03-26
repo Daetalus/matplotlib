@@ -1839,6 +1839,29 @@ class BackendGtk3Cairo(OptionalBackendPackage):
     def get_package_data(self):
         return {'matplotlib': ['mpl-data/*.glade']}
 
+class BackendKivy(OptionalBackendPackage):
+    name = "kivy"
+
+    def check_requirements(self):
+        try:
+            # disable kivy LOG temporarily when checking
+            # its version in matplotlib
+            import logging
+            logging.getLogger("kivy").disabled = True
+            import kivy
+            backend_version = kivy.__version__
+            logging.getLogger("kivy").disabled = False
+        except ImportError:
+            raise CheckFailed("requires Kivy")
+
+        try:
+            kivy.require('1.9.0')
+        except Exception:
+            return (False, "Kivy version too old.")
+
+        BackendAgg.force = True
+
+        return "version %s" % backend_version
 
 class BackendWxAgg(OptionalBackendPackage):
     name = "wxagg"

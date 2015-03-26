@@ -101,6 +101,7 @@ mpl_packages = [
     setupext.BackendWxAgg(),
     setupext.BackendGtk(),
     setupext.BackendAgg(),
+    setupext.BackendKivy(),
     setupext.BackendCairo(),
     setupext.Windowing(),
     'Optional LaTeX dependencies',
